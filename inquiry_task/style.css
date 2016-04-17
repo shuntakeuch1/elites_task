@@ -1,0 +1,25 @@
+@charset "utf-8";
+.container{
+  width:960px;
+  margin:0 auto;
+  /*background-color: red;*/
+}
+.container h1{
+  font-size: 20px;
+  color:#fff;
+  background-color:#000;
+}
+p{
+  margin:20px;
+}
+.text input{
+  width:300px;
+}
+input#bottan{
+  /*padding:15px 40px;*/
+  font-size: 1.2em;
+  color:#fff;
+  background-color:#000080 ;
+  border-style: none;
+
+}
