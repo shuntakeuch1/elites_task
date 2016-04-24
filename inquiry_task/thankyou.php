@@ -1,15 +1,15 @@
 <?php
 
-mb_language("japanese");
-mb_internal_encoding("EUC-JP");
+//mb_language("japanese");
+//mb_internal_encoding("EUC-JP");
 $name = $_POST['name'];
 $impression = $_POST['impression'];
 $subject = $_POST['subject'];
 $mail = $_POST['mail'];
 //$from = "takeuchishun89@gmail.com";
-$from = mb_encode_mimeheader(mb_convert_encoding("武内 駿","JIS","EUC-JP"))."<takeuchishun89@gmail.com>";
-mb_send_mail($mail,$subject,$impression,"From:".$from);
-
+//$from = mb_encode_mimeheader(mb_convert_encoding("武内 駿","JIS","EUC-JP"))."<takeuchishun89@gmail.com>";
+mb_send_mail($mail,$subject,$impression);
+//var_dump($mail,$subject,$impression);
 
 ?>
 <!DOCTYPE html>
