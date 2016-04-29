@@ -1,3 +1,4 @@
+/*前提条件*/
 create database subquery_db;
 
 use subquery_db;
@@ -55,4 +56,19 @@ insert into age (age) values
   (33),
   (24),
   (20);
- 1. 最大の売上を出した社員の名前 2. 売上の平均以上を達成した社員の名前 3. 30代以下の社員が達成した売上の合計
+
+/*1. 最大の売上を出した社員の名前*/
+
+select * from members
+where member_id = (select member_id from sales order by sale desc limit 1);
+
+/*2. 売上の平均以上を達成した社員の名前*/
+
+select * from members
+where member_id =
+any(select member_id from sales where sale >= (select avg(sale) from sales));
+
+/*3. 30代以下の社員が達成した売上の合計*/
+
+select sum(sale) from sales where member_id in (
+select member_id from age where age <= 30);
