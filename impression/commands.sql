@@ -11,3 +11,4 @@ created_at datetime
 );
 
 alter table posts add image blob;
+alter table posts add mime-type ;

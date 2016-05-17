@@ -1,0 +1,37 @@
+@charset "utf-8";
+.container{
+  width:960px;
+  margin:0 auto;
+}
+.container h1{
+  font-size:20px;
+  color:#fff;
+  background-color:#000;
+}
+.main{
+  width:80%;
+  margin:0 auto;
+}
+li{
+  clear:both;
+  float:left;
+  width:250px;
+  margin:0 auto;
+
+}
+a{
+  float:left;
+  width:250px;
+}
+img{
+  width:150px;
+  height:150px;
+  border-style:solid;
+  border-color: #808080;
+  float:left;
+  margin-bottom: 20px;
+
+}
+#back{
+  clear:both;
+}
