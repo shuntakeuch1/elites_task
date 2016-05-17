@@ -21,3 +21,5 @@ updated_at datetime
 
 alter table users add a_counta int;
 alter table users add profile blob;
+alter table users add type char(8);
+alter table users drop type;

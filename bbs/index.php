@@ -15,6 +15,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 {
   $name =$_SESSION["name"];
   $message =$_POST["message"];
+
   //エラーメッセージを入れる配列
   $errors =array();
 
@@ -40,12 +41,15 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     exit;
   }
 }
+$id = $_SESSION["id"];
 $dbh= connectDatabase();
-$sql = "select a_counta from users where id = (:id)";
+$sql = "select * from users where id = (:id)";
 $stmt = $dbh->prepare($sql);
-$stmt->bindParam(":id",$_SESSION["id"]);
+$stmt->bindParam(":id",$id);
 $stmt->execute();
-$count = $stmt->fetch();
+$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$count = $row['0']['a_counta'];
+$user_id = $row['0']['id'];
 
 $dbh= connectDatabase();
 $sql = "select * from posts order by updated_at desc";
@@ -61,18 +65,22 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <lang="ja">
   <meta charset="utf-8">
   <title>会員制掲示板</title>
+  <link type="text/css" rel="stylesheet" href="style.css">
 </head>
-<body>
-    <h1><?php echo h($_SESSION["name"]);?>さん 会員制掲示板へようこそ!</h1>
-        <?php if (is_null($_SESSION["profile"])):?>
-        <img src="images/profile.jpeg" alt="dummy">
-          <?php else : ?>
-        <img src="images.php?id=<?php echo h($post["id"]) ?>">
-        <?php endif; ?>
 
-    <p>あなたは<?php echo h($count['a_counta']) ;?>回目のログインです</p>
+<body>
+    <h1>
+      <?php echo h($_SESSION["name"]);?>さん 会員制掲示板へようこそ!
+    </h1>
+    <p>あなたは<?php echo h($count) ;?>回目のログインです</p>
+<?php if (is_null($row['0']['profile'])):?>
+  <img src="images/profile.jpeg" alt="dummy">
+<?php else : ?>
+  <img src="images.php?id=<?php echo h($id) ?>">
+<?php endif; ?>
     <p>
-      <a href="logout.php">[ログアウト]</a><a href="profile.php"> [画像の変更]</a>
+      <a href="logout.php">[ログアウト]</a>
+      <a href="profile.php?=<?php echo h($user_id) ?>">[画像の変更]</a>
     </p>
     <p>一言どうぞ!</p>
     <form action="" method="post">

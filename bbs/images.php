@@ -1,17 +1,19 @@
 <?php
+require_once("config.php");
 require_once("functions.php");
 
-$id = $_GET['id'];
+session_start();
+$id = $_SESSION['id'];
 
-$dbh =connectDb();
-$sql="select * from posts where id = :id";
+
+$dbh =connectDatabase();
+$sql="select * from users where id = :id";
 $stmt =$dbh->prepare($sql);
 $stmt->bindParam(":id",$id);
 $stmt->execute();
 $row = $stmt->fetch();
 
-// $c_type=$row["mime_type"];
-$row = $row["image"];
+$row = $row["profile"];
 
 if( !isset($row)){
   echo "No Image!" ;
@@ -19,6 +21,5 @@ if( !isset($row)){
 header('Context-type:image/jpeg');
 echo $row;
 }
-
 
 ?>
