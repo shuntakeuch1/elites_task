@@ -40,6 +40,12 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     exit;
   }
 }
+$dbh= connectDatabase();
+$sql = "select a_counta from users where id = (:id)";
+$stmt = $dbh->prepare($sql);
+$stmt->bindParam(":id",$_SESSION["id"]);
+$stmt->execute();
+$count = $stmt->fetch();
 
 $dbh= connectDatabase();
 $sql = "select * from posts order by updated_at desc";
@@ -47,19 +53,27 @@ $stmt= $dbh->prepare($sql);
 $stmt->execute();
 
 $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//var_dump($posts);
-
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+  <lang="ja">
   <meta charset="utf-8">
   <title>会員制掲示板</title>
 </head>
 <body>
     <h1><?php echo h($_SESSION["name"]);?>さん 会員制掲示板へようこそ!</h1>
-    <p><a href="logout.php">ログアウト</a></p>
+        <?php if (is_null($_SESSION["profile"])):?>
+        <img src="images/profile.jpeg" alt="dummy">
+          <?php else : ?>
+        <img src="images.php?id=<?php echo h($post["id"]) ?>">
+        <?php endif; ?>
+
+    <p>あなたは<?php echo h($count['a_counta']) ;?>回目のログインです</p>
+    <p>
+      <a href="logout.php">[ログアウト]</a><a href="profile.php"> [画像の変更]</a>
+    </p>
     <p>一言どうぞ!</p>
     <form action="" method="post">
       <textarea name="message" cols="30" rows="5"></textarea>

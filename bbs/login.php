@@ -1,14 +1,17 @@
 <?php
 session_start();
 //idを持っていたら
+
+require_once("config.php");
+require_once("functions.php");
+
 if(!empty($_SESSION["id"]))
 {
+
   header("Location: index.php");
   exit;
 }
 
-require_once("config.php");
-require_once("functions.php");
 
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
@@ -44,6 +47,25 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     {
       $_SESSION["id"] =$row["id"];
       $_SESSION["name"] = $row["name"];
+
+        $dbh = connectDatabase();
+      $sql = "select a_counta from users where id = (:id)";
+      $stmt= $dbh->prepare($sql);
+      $stmt->bindParam(":id",$_SESSION["id"]);
+      $stmt->execute();
+
+      $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $row = $row[0]["a_counta"];
+      $cnt = (integer)$row;
+      $cnt++;
+
+      $dbh = connectDatabase();
+      $sql = "update users set a_counta = (:cnt) where id = (:id)";
+      $stmt= $dbh->prepare($sql);
+      $stmt->bindParam(":cnt",$cnt);
+      $stmt->bindParam(":id",$_SESSION["id"]);
+      $stmt->execute();
+
       header("Location: index.php");
       exit;
     }

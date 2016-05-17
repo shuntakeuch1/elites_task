@@ -18,3 +18,6 @@ message text,
 created_at datetime,
 updated_at datetime
 );
+
+alter table users add a_counta int;
+alter table users add profile blob;
